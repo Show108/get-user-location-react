@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [currLocation, setCurrLocation] = useState({});
+  const [currLocationJs, setCurrLocationJs] = useState({});
+  useEffect(() => {
+    getLocation();
+    getLocationJs();
+  }, []);
+
+  const getLocation = async () => {
+    const location = await axios.get("https://ipapi.co/json");
+    setCurrLocation(location.data);
+  };
+
+  const getLocationJs = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+      const { latitude, longitude } = position.coords;
+      setCurrLocationJs({ latitude, longitude });
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Current Location</h1>
+      <p>Latitude: {currLocation.latitude}</p>
+      <p>Longitude: {currLocation.longitude}</p>
+      <p>City: {currLocation.city}</p>
+
+      <h1>Current Location JS</h1>
+      <p>Latitude: {currLocationJs.latitude}</p>
+      <p>Longitude: {currLocationJs.longitude}</p>
     </div>
   );
 }
