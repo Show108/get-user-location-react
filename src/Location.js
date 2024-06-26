@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function App () {
+const GeolocationDemo = () => {
   const [status, setStatus] = useState('');
   const [location, setLocation] = useState({});
 
@@ -35,4 +35,4 @@ function App () {
   );
 };
 
-export default App;
+export default GeolocationDemo;
